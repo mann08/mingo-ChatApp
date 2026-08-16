@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
+import SiteHeader from "./components/SiteHeader";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
-<>
-    <div>App</div>
-</>
-  )
-}
+    <>
+      <SiteHeader />
+      <Home />
+    </>
+  );
+};
 
-export default App
+export default App;
