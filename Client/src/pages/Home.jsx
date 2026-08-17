@@ -1,4 +1,3 @@
-import React from "react";
 import Hero from "../components/Hero";
 import FeaturedPreview from "../components/FeaturedPreview";
 import FeatureGrid from "../components/FeatureGrid";

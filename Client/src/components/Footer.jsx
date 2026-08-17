@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "motion/react";
 import { FiTwitter, FiInstagram, FiGithub, FiYoutube } from "react-icons/fi";
 
