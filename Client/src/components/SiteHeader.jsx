@@ -26,7 +26,6 @@ const SiteHeader = () => {
 
         {/* ── Right: Nav + Theme dropdown ── */}
         <div className="flex items-center gap-2">
-
           {/* Contact Us */}
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -96,7 +95,6 @@ const SiteHeader = () => {
             <option value="ghibli">Ghibli</option>
             <option value="halloween">Halloween</option>
           </select>
-
         </div>
       </div>
     </>
