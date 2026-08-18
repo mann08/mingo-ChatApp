@@ -28,7 +28,8 @@ const ContactUs = () => {
       <div
         className="fixed top-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
         style={{
-          background: "radial-gradient(circle, var(--primary) 0%, transparent 70%)",
+          background:
+            "radial-gradient(circle, var(--primary) 0%, transparent 70%)",
           transform: "translate(-30%, -30%)",
         }}
       />
@@ -43,7 +44,10 @@ const ContactUs = () => {
         >
           <span
             className="inline-block text-sm font-semibold px-4 py-1.5 rounded-full mb-4 theme-transition"
-            style={{ background: "var(--badge-bg)", color: "var(--badge-text)" }}
+            style={{
+              background: "var(--badge-bg)",
+              color: "var(--badge-text)",
+            }}
           >
             Get in Touch
           </span>
@@ -57,7 +61,8 @@ const ContactUs = () => {
             className="text-lg max-w-md mx-auto"
             style={{ color: "var(--text-muted)" }}
           >
-            Have a question, feedback, or just want to say hi? Drop us a message!
+            Have a question, feedback, or just want to say hi? Drop us a
+            message!
           </p>
         </motion.div>
 
@@ -162,7 +167,8 @@ const ContactUs = () => {
                     Message Sent!
                   </h2>
                   <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-                    Thanks for reaching out. We'll get back to you within 24 hours.
+                    Thanks for reaching out. We'll get back to you within 24
+                    hours.
                   </p>
                   <motion.button
                     whileHover={{ scale: 1.04 }}
@@ -286,7 +292,10 @@ const ContactUs = () => {
                   </div>
 
                   <motion.button
-                    whileHover={{ scale: 1.02, boxShadow: "0 12px 30px var(--glow)" }}
+                    whileHover={{
+                      scale: 1.02,
+                      boxShadow: "0 12px 30px var(--glow)",
+                    }}
                     whileTap={{ scale: 0.97 }}
                     type="submit"
                     id="contact-submit-btn"
