@@ -38,14 +38,16 @@ const Login = () => {
       <div
         className="fixed top-0 right-0 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
         style={{
-          background: "radial-gradient(circle, var(--primary) 0%, transparent 70%)",
+          background:
+            "radial-gradient(circle, var(--primary) 0%, transparent 70%)",
           transform: "translate(30%, -30%)",
         }}
       />
       <div
         className="fixed bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
         style={{
-          background: "radial-gradient(circle, var(--primary-dark) 0%, transparent 70%)",
+          background:
+            "radial-gradient(circle, var(--primary-dark) 0%, transparent 70%)",
           transform: "translate(-40%, 40%)",
         }}
       />
@@ -71,7 +73,8 @@ const Login = () => {
               whileHover={{ rotate: 10 }}
               className="w-16 h-16 rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg"
               style={{
-                background: "linear-gradient(135deg, var(--primary), var(--primary-dark))",
+                background:
+                  "linear-gradient(135deg, var(--primary), var(--primary-dark))",
                 boxShadow: "0 10px 30px var(--glow)",
               }}
             >
@@ -149,8 +152,12 @@ const Login = () => {
                       color: "var(--text)",
                       fontFamily: "inherit",
                     }}
-                    onFocus={(e) => (e.target.style.borderColor = "var(--primary)")}
-                    onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                    onFocus={(e) =>
+                      (e.target.style.borderColor = "var(--primary)")
+                    }
+                    onBlur={(e) =>
+                      (e.target.style.borderColor = "var(--border)")
+                    }
                   />
                 </motion.div>
               )}
@@ -208,7 +215,9 @@ const Login = () => {
                     color: "var(--text)",
                     fontFamily: "inherit",
                   }}
-                  onFocus={(e) => (e.target.style.borderColor = "var(--primary)")}
+                  onFocus={(e) =>
+                    (e.target.style.borderColor = "var(--primary)")
+                  }
                   onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
                 />
                 <button
@@ -240,7 +249,8 @@ const Login = () => {
               disabled={loading}
               className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl text-white font-bold text-sm mt-2 transition-all cursor-pointer"
               style={{
-                background: "linear-gradient(135deg, var(--primary), var(--primary-dark))",
+                background:
+                  "linear-gradient(135deg, var(--primary), var(--primary-dark))",
                 opacity: loading ? 0.8 : 1,
               }}
             >
@@ -257,11 +267,17 @@ const Login = () => {
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px" style={{ background: "var(--border)" }} />
+            <div
+              className="flex-1 h-px"
+              style={{ background: "var(--border)" }}
+            />
             <span className="text-xs" style={{ color: "var(--text-muted)" }}>
               or continue as
             </span>
-            <div className="flex-1 h-px" style={{ background: "var(--border)" }} />
+            <div
+              className="flex-1 h-px"
+              style={{ background: "var(--border)" }}
+            />
           </div>
 
           {/* Guest mode */}

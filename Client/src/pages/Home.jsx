@@ -9,7 +9,11 @@ const Home = () => {
   return (
     <div
       className="theme-transition"
-      style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}
+      style={{
+        background: "var(--bg)",
+        color: "var(--text)",
+        minHeight: "100vh",
+      }}
     >
       <Hero />
       <FeaturedPreview />
