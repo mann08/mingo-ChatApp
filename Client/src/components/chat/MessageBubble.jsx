@@ -20,9 +20,10 @@ const MessageBubble = ({ message, index }) => {
       <div
         className={`
           relative max-w-[72%] px-4 py-2.5 shadow-sm
-          ${isMe
-            ? "rounded-2xl rounded-tr-sm text-white"
-            : "rounded-2xl rounded-tl-sm"
+          ${
+            isMe
+              ? "rounded-2xl rounded-tr-sm text-white"
+              : "rounded-2xl rounded-tl-sm"
           }
         `}
         style={{
@@ -56,19 +57,49 @@ const MessageBubble = ({ message, index }) => {
               {status === "read" ? (
                 // Blue double checks for read
                 <svg width="15" height="10" viewBox="0 0 18 12" fill="none">
-                  <path d="M1 6L5 10L13 2" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M5 6L9 10L17 2" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path
+                    d="M1 6L5 10L13 2"
+                    stroke="rgba(255,255,255,0.9)"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M5 6L9 10L17 2"
+                    stroke="rgba(255,255,255,0.9)"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               ) : status === "delivered" ? (
                 // Gray double checks for delivered
                 <svg width="15" height="10" viewBox="0 0 18 12" fill="none">
-                  <path d="M1 6L5 10L13 2" stroke="rgba(255,255,255,0.6)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M5 6L9 10L17 2" stroke="rgba(255,255,255,0.6)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path
+                    d="M1 6L5 10L13 2"
+                    stroke="rgba(255,255,255,0.6)"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M5 6L9 10L17 2"
+                    stroke="rgba(255,255,255,0.6)"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               ) : (
                 // Single check for sent
                 <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                  <path d="M1 6L5 10L11 2" stroke="rgba(255,255,255,0.6)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path
+                    d="M1 6L5 10L11 2"
+                    stroke="rgba(255,255,255,0.6)"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               )}
             </span>

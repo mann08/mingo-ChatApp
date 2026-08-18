@@ -1,17 +1,39 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  FiSmile,
-  FiPaperclip,
-  FiSend,
-  FiMic,
-} from "react-icons/fi";
+import { FiSmile, FiPaperclip, FiSend, FiMic } from "react-icons/fi";
 
 // Quick emoji picker (local state only, no backend)
 const EMOJIS = [
-  "😊","😂","🥰","😍","🤣","😭","😅","🙏","🔥","💯",
-  "👍","❤️","🎉","✅","👀","😎","🤔","😢","😱","🥳",
-  "🚀","✨","🌟","💪","🎊","🤝","👏","😴","🤗","😋",
+  "😊",
+  "😂",
+  "🥰",
+  "😍",
+  "🤣",
+  "😭",
+  "😅",
+  "🙏",
+  "🔥",
+  "💯",
+  "👍",
+  "❤️",
+  "🎉",
+  "✅",
+  "👀",
+  "😎",
+  "🤔",
+  "😢",
+  "😱",
+  "🥳",
+  "🚀",
+  "✨",
+  "🌟",
+  "💪",
+  "🎊",
+  "🤝",
+  "👏",
+  "😴",
+  "🤗",
+  "😋",
 ];
 
 const MessageInput = ({ onSend }) => {
@@ -163,7 +185,8 @@ const MessageInput = ({ onSend }) => {
             onClick={handleSend}
             className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-all duration-150"
             style={{
-              background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)",
+              background:
+                "linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)",
               color: "#ffffff",
             }}
             title="Send message"
