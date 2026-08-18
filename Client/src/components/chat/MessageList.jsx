@@ -35,9 +35,17 @@ const MessageList = ({ messages, onSend }) => {
 
   // Group messages to add date separators
   // For simplicity, show "Today" before the first set and "Yesterday" if older dates
-  const todayMessages = messages.filter((m) => !m.time.toLowerCase().includes("yesterday") && !m.time.toLowerCase().includes("mon"));
-  const yesterdayMessages = messages.filter((m) => m.time.toLowerCase().includes("yesterday"));
-  const olderMessages = messages.filter((m) => m.time.toLowerCase().includes("mon"));
+  const todayMessages = messages.filter(
+    (m) =>
+      !m.time.toLowerCase().includes("yesterday") &&
+      !m.time.toLowerCase().includes("mon"),
+  );
+  const yesterdayMessages = messages.filter((m) =>
+    m.time.toLowerCase().includes("yesterday"),
+  );
+  const olderMessages = messages.filter((m) =>
+    m.time.toLowerCase().includes("mon"),
+  );
 
   return (
     <div className="flex flex-col flex-1 min-h-0">
@@ -79,7 +87,11 @@ const MessageList = ({ messages, onSend }) => {
             <>
               <DateSeparator label="Yesterday" />
               {yesterdayMessages.map((msg, i) => (
-                <MessageBubble key={msg.id} message={msg} index={olderMessages.length + i} />
+                <MessageBubble
+                  key={msg.id}
+                  message={msg}
+                  index={olderMessages.length + i}
+                />
               ))}
             </>
           )}

@@ -10,9 +10,10 @@ import { CHATS } from "../../assets/chatDummy";
 const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredChats = CHATS.filter((chat) =>
-    chat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    chat.lastMsg.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredChats = CHATS.filter(
+    (chat) =>
+      chat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      chat.lastMsg.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -33,7 +34,8 @@ const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
           <div
             className="w-8 h-8 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-sm"
             style={{
-              background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)",
+              background:
+                "linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)",
             }}
           >
             M
@@ -84,7 +86,10 @@ const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
             border: "1px solid var(--border)",
           }}
         >
-          <FiSearch size={15} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
+          <FiSearch
+            size={15}
+            style={{ color: "var(--text-muted)", flexShrink: 0 }}
+          />
           <input
             type="text"
             placeholder="Search chats…"
@@ -128,7 +133,10 @@ const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
               animate={{ opacity: 1 }}
               className="flex flex-col items-center justify-center py-12 gap-2"
             >
-              <FiSearch size={28} style={{ color: "var(--text-muted)", opacity: 0.4 }} />
+              <FiSearch
+                size={28}
+                style={{ color: "var(--text-muted)", opacity: 0.4 }}
+              />
               <p className="text-sm" style={{ color: "var(--text-muted)" }}>
                 No chats found
               </p>
@@ -155,7 +163,10 @@ const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
         className="px-4 py-3 flex-shrink-0 text-center"
         style={{ borderTop: "1px solid var(--border)" }}
       >
-        <p className="text-[10px]" style={{ color: "var(--text-muted)", opacity: 0.5 }}>
+        <p
+          className="text-[10px]"
+          style={{ color: "var(--text-muted)", opacity: 0.5 }}
+        >
           Mingo ChatApp · End-to-end encrypted
         </p>
       </div>
@@ -178,14 +189,15 @@ const ChatItem = ({ chat, index, isActive, onClick }) => (
       background: isActive
         ? "linear-gradient(90deg, var(--badge-bg) 0%, transparent 100%)"
         : "transparent",
-      borderLeft: isActive ? "3px solid var(--primary)" : "3px solid transparent",
+      borderLeft: isActive
+        ? "3px solid var(--primary)"
+        : "3px solid transparent",
     }}
     onMouseEnter={(e) => {
       if (!isActive) e.currentTarget.style.background = "var(--hover-bg)";
     }}
     onMouseLeave={(e) => {
-      if (!isActive)
-        e.currentTarget.style.background = "transparent";
+      if (!isActive) e.currentTarget.style.background = "transparent";
     }}
     id={`chat-item-${chat.id}`}
   >
