@@ -9,9 +9,27 @@ const bullets = [
 ];
 
 const notifications = [
-  { text: "Alex joined the group", avatar: "A", top: "8%", right: "-6%", delay: 0 },
-  { text: "Poll: 8 votes so far!", avatar: "📊", top: "48%", right: "-10%", delay: 0.4 },
-  { text: "@all: Meeting in 5 mins!", avatar: "🔔", bottom: "12%", right: "-6%", delay: 0.8 },
+  {
+    text: "Alex joined the group",
+    avatar: "A",
+    top: "8%",
+    right: "-6%",
+    delay: 0,
+  },
+  {
+    text: "Poll: 8 votes so far!",
+    avatar: "📊",
+    top: "48%",
+    right: "-10%",
+    delay: 0.4,
+  },
+  {
+    text: "@all: Meeting in 5 mins!",
+    avatar: "🔔",
+    bottom: "12%",
+    right: "-6%",
+    delay: 0.8,
+  },
 ];
 
 const groupMessages = [
@@ -33,7 +51,10 @@ export default function GroupShowcase() {
         <div className="flex justify-center mb-16">
           <div
             className="w-16 h-1 rounded-full"
-            style={{ background: "linear-gradient(90deg, var(--primary), var(--primary-dark))" }}
+            style={{
+              background:
+                "linear-gradient(90deg, var(--primary), var(--primary-dark))",
+            }}
           />
         </div>
 
@@ -48,7 +69,10 @@ export default function GroupShowcase() {
           >
             <span
               className="inline-block text-sm font-semibold px-4 py-1.5 rounded-full mb-5 theme-transition"
-              style={{ background: "var(--badge-bg)", color: "var(--badge-text)" }}
+              style={{
+                background: "var(--badge-bg)",
+                color: "var(--badge-text)",
+              }}
             >
               Group Chats
             </span>
@@ -65,7 +89,8 @@ export default function GroupShowcase() {
               className="text-lg leading-relaxed mb-8 max-w-md theme-transition"
               style={{ color: "var(--text-muted)" }}
             >
-              Whether it's your work squad, family group, or friend circle — Mingo keeps everyone on the same page with powerful group tools.
+              Whether it's your work squad, family group, or friend circle —
+              Mingo keeps everyone on the same page with powerful group tools.
             </p>
 
             {/* Bullets */}
@@ -99,11 +124,24 @@ export default function GroupShowcase() {
               whileHover={{ scale: 1.04, boxShadow: "0 12px 30px var(--glow)" }}
               whileTap={{ scale: 0.97 }}
               className="mt-10 flex items-center gap-2 px-8 py-4 rounded-2xl text-white font-semibold text-base transition-all primary-glow"
-              style={{ background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)" }}
+              style={{
+                background:
+                  "linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)",
+              }}
             >
               Create a Group
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </motion.button>
           </motion.div>
@@ -128,9 +166,13 @@ export default function GroupShowcase() {
 
                 <div className="bg-[#ECE5DD] min-h-[520px] flex flex-col">
                   <div className="flex items-center gap-3 px-4 py-3 bg-[#128C7E]">
-                    <div className="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center text-white font-bold text-sm">T</div>
+                    <div className="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center text-white font-bold text-sm">
+                      T
+                    </div>
                     <div>
-                      <p className="text-white font-semibold text-sm">Team Mingo 🚀</p>
+                      <p className="text-white font-semibold text-sm">
+                        Team Mingo 🚀
+                      </p>
                       <p className="text-green-200 text-xs">5 members online</p>
                     </div>
                     <div className="ml-auto">
@@ -158,7 +200,9 @@ export default function GroupShowcase() {
                           }`}
                         >
                           {!msg.isMe && msg.name && (
-                            <p className="text-[9px] font-semibold text-[#128C7E] mb-0.5">{msg.name}</p>
+                            <p className="text-[9px] font-semibold text-[#128C7E] mb-0.5">
+                              {msg.name}
+                            </p>
                           )}
                           <p className="leading-relaxed">{msg.text}</p>
                         </div>
@@ -167,9 +211,16 @@ export default function GroupShowcase() {
                   </div>
 
                   <div className="flex items-center gap-2 px-3 py-2 bg-[#F0F0F0] m-2 rounded-full">
-                    <span className="flex-1 text-xs text-gray-400">Message Team Mingo…</span>
+                    <span className="flex-1 text-xs text-gray-400">
+                      Message Team Mingo…
+                    </span>
                     <div className="w-7 h-7 rounded-full bg-[#25D366] flex items-center justify-center">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="white"
+                      >
                         <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
                       </svg>
                     </div>
@@ -200,16 +251,29 @@ export default function GroupShowcase() {
                   transition={{
                     opacity: { delay: notif.delay + 0.5, duration: 0.4 },
                     scale: { delay: notif.delay + 0.5, duration: 0.4 },
-                    y: { delay: notif.delay + 0.9, duration: 3, repeat: Infinity, ease: "easeInOut" },
+                    y: {
+                      delay: notif.delay + 0.9,
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    },
                   }}
                 >
                   <div
                     className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
-                    style={{ background: "linear-gradient(135deg, var(--primary), var(--primary-dark))" }}
+                    style={{
+                      background:
+                        "linear-gradient(135deg, var(--primary), var(--primary-dark))",
+                    }}
                   >
                     {notif.avatar}
                   </div>
-                  <p className="text-xs font-medium leading-tight" style={{ color: "var(--text)" }}>{notif.text}</p>
+                  <p
+                    className="text-xs font-medium leading-tight"
+                    style={{ color: "var(--text)" }}
+                  >
+                    {notif.text}
+                  </p>
                 </motion.div>
               ))}
             </div>
