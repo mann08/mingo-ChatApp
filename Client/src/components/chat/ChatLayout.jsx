@@ -97,7 +97,8 @@ const ChatLayout = () => {
           </>
         ) : (
           /* Empty state */
-          <div className="flex-1 flex flex-col items-center justify-center gap-4 theme-transition"
+          <div
+            className="flex-1 flex flex-col items-center justify-center gap-4 theme-transition"
             style={{ background: "var(--bg)" }}
           >
             <motion.div
@@ -106,7 +107,8 @@ const ChatLayout = () => {
               transition={{ duration: 0.5 }}
               className="w-24 h-24 rounded-3xl flex items-center justify-center shadow-xl"
               style={{
-                background: "linear-gradient(135deg, var(--primary), var(--primary-dark))",
+                background:
+                  "linear-gradient(135deg, var(--primary), var(--primary-dark))",
                 boxShadow: "0 20px 60px var(--glow)",
               }}
             >
@@ -138,7 +140,8 @@ const ChatLayout = () => {
               onClick={() => setMobileDrawerOpen(true)}
               className="md:hidden mt-2 px-6 py-3 rounded-2xl text-white font-semibold text-sm cursor-pointer"
               style={{
-                background: "linear-gradient(135deg, var(--primary), var(--primary-dark))",
+                background:
+                  "linear-gradient(135deg, var(--primary), var(--primary-dark))",
                 boxShadow: "0 8px 24px var(--glow)",
               }}
             >
