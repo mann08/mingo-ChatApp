@@ -6,7 +6,10 @@ import React from "react";
 
 const Chatting = () => {
   return (
-    <div className="flex items-center justify-center h-full" style={{ color: "var(--text-muted)" }}>
+    <div
+      className="flex items-center justify-center h-full"
+      style={{ color: "var(--text-muted)" }}
+    >
       <p className="text-sm">Use ChatLayout for the full chat experience.</p>
     </div>
   );
