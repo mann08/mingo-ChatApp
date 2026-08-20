@@ -65,6 +65,14 @@ const AppShell = () => {
             </PublicRoute>
           }
         />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
 
         {/* Protected: must be logged in */}
         <Route
