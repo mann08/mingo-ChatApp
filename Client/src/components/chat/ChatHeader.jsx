@@ -10,6 +10,7 @@ import {
   FiBell,
   FiTrash2,
 } from "react-icons/fi";
+import { useChat } from "../../context/ChatContext";
 
 /**
  * ChatHeader — top bar inside the active chat window.
@@ -18,8 +19,11 @@ import {
  */
 const ChatHeader = ({ chat, onBack }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { onlineUsers } = useChat();
 
   if (!chat) return null;
+
+  const isOnline = onlineUsers.includes(chat._id);
 
   const menuItems = [
     { icon: <FiSearch size={15} />, label: "Search messages" },
@@ -60,7 +64,7 @@ const ChatHeader = ({ chat, onBack }) => {
           {chat.avatar}
         </div>
         {/* Online indicator */}
-        {chat.online && (
+        {isOnline && (
           <span
             className="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2"
             style={{
@@ -93,10 +97,17 @@ const ChatHeader = ({ chat, onBack }) => {
         <p
           className="text-xs truncate leading-tight mt-0.5"
           style={{
-            color: chat.online ? "var(--primary)" : "var(--text-muted)",
+            color: isOnline ? "var(--primary)" : "var(--text-muted)",
           }}
         >
-          {chat.online ? "● online" : chat.lastSeen}
+          {isOnline
+            ? "● online"
+            : chat.lastSeen
+            ? `last seen ${new Date(chat.lastSeen).toLocaleTimeString("en-IN", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}`
+            : "offline"}
           {chat.isGroup && ` · ${chat.memberCount} members`}
         </p>
       </div>

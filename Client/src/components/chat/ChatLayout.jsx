@@ -3,39 +3,31 @@ import { motion, AnimatePresence } from "motion/react";
 import Sidebar from "./Sidebar";
 import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
-import { CHATS, MESSAGES } from "../../assets/chatDummy";
+import { useChat } from "../../context/ChatContext";
+import { useAuth } from "../../context/AuthContext";
 
 /**
  * ChatLayout — the full chat page.
- * - Left panel: Sidebar (chat list)
+ * - Left panel: Sidebar (contact list from real API)
  * - Right panel: ChatHeader + MessageList + MessageInput
  * - On mobile: drawer-based sidebar
  */
 const ChatLayout = () => {
-  const [selectedChatId, setSelectedChatId] = useState(CHATS[0]?.id || null);
-  const [messagesMap, setMessagesMap] = useState(MESSAGES);
+  const { selectedUser, messages, sendMessage, messagesLoading } = useChat();
+  const { user: me } = useAuth();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
-  const selectedChat = CHATS.find((c) => c.id === selectedChatId) || null;
-  const messages = selectedChatId ? messagesMap[selectedChatId] || [] : [];
-
-  const handleSend = (text) => {
-    if (!selectedChatId) return;
-    const newMsg = {
-      id: Date.now(),
-      isMe: true,
-      text,
-      time: new Date().toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      status: "sent",
-    };
-    setMessagesMap((prev) => ({
-      ...prev,
-      [selectedChatId]: [...(prev[selectedChatId] || []), newMsg],
-    }));
-  };
+  // Convert DB messages to the shape the UI expects
+  const formattedMessages = messages.map((msg) => ({
+    id: msg._id,
+    isMe: msg.senderId === me?._id, // true if I sent this message
+    text: msg.text,
+    time: new Date(msg.createdAt).toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+    status: msg.status || "sent",
+  }));
 
   return (
     <div
@@ -47,10 +39,7 @@ const ChatLayout = () => {
         className="hidden md:flex flex-col w-80 flex-shrink-0 h-full"
         style={{ minWidth: "280px", maxWidth: "320px" }}
       >
-        <Sidebar
-          selectedChatId={selectedChatId}
-          onSelectChat={setSelectedChatId}
-        />
+        <Sidebar />
       </div>
 
       {/* ── Mobile Sidebar Drawer ── */}
@@ -75,8 +64,6 @@ const ChatLayout = () => {
               className="md:hidden fixed left-0 top-0 bottom-0 z-50 w-[300px]"
             >
               <Sidebar
-                selectedChatId={selectedChatId}
-                onSelectChat={setSelectedChatId}
                 onClose={() => setMobileDrawerOpen(false)}
                 isMobileDrawer
               />
@@ -87,13 +74,27 @@ const ChatLayout = () => {
 
       {/* ── Main Chat Area ── */}
       <div className="flex flex-col flex-1 min-w-0 h-full">
-        {selectedChat ? (
+        {selectedUser ? (
           <>
             <ChatHeader
-              chat={selectedChat}
+              chat={selectedUser}
               onBack={() => setMobileDrawerOpen(true)}
             />
-            <MessageList messages={messages} onSend={handleSend} />
+            {messagesLoading ? (
+              <div className="flex-1 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-3">
+                  <div
+                    className="w-10 h-10 rounded-full border-4 border-t-transparent animate-spin"
+                    style={{ borderColor: "var(--border)", borderTopColor: "var(--primary)" }}
+                  />
+                  <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+                    Loading messages…
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <MessageList messages={formattedMessages} onSend={sendMessage} />
+            )}
           </>
         ) : (
           /* Empty state */
@@ -121,7 +122,7 @@ const ChatLayout = () => {
               className="text-xl font-bold"
               style={{ color: "var(--text)" }}
             >
-              Select a chat to start messaging
+              Select a contact to start chatting
             </motion.h2>
             <motion.p
               initial={{ y: 10, opacity: 0 }}
@@ -130,7 +131,7 @@ const ChatLayout = () => {
               className="text-sm"
               style={{ color: "var(--text-muted)" }}
             >
-              Tap a conversation on the left to open it.
+              Your messages are end-to-end encrypted 🔒
             </motion.p>
             {/* Mobile: show open sidebar button */}
             <motion.button
@@ -145,7 +146,7 @@ const ChatLayout = () => {
                 boxShadow: "0 8px 24px var(--glow)",
               }}
             >
-              Open Chats
+              Open Contacts
             </motion.button>
           </div>
         )}

@@ -1,20 +1,28 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { FiSearch, FiEdit, FiX } from "react-icons/fi";
-import { CHATS } from "../../assets/chatDummy";
+import { FiSearch, FiEdit, FiX, FiLogOut } from "react-icons/fi";
+import { useChat } from "../../context/ChatContext";
+import { useAuth } from "../../context/AuthContext";
 
 /**
- * Sidebar — left panel showing search bar + chat list.
+ * Sidebar — left panel showing current user info, search bar + contact list.
  * On mobile this is rendered inside a slide-over drawer (controlled by parent).
  */
-const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
+const Sidebar = ({ onClose, isMobileDrawer }) => {
+  const { users, usersLoading, selectedUser, setSelectedUser, onlineUsers } = useChat();
+  const { user: me, logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredChats = CHATS.filter(
-    (chat) =>
-      chat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      chat.lastMsg.toLowerCase().includes(searchQuery.toLowerCase()),
+  const filteredUsers = users.filter(
+    (u) =>
+      u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (u.lastMsg || "").toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleSelectUser = (u) => {
+    setSelectedUser(u);
+    if (isMobileDrawer) onClose?.();
+  };
 
   return (
     <div
@@ -61,6 +69,19 @@ const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
             <FiEdit size={17} />
           </motion.button>
 
+          {/* Logout */}
+          <motion.button
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={logout}
+            className="p-2 rounded-full transition-colors duration-150 cursor-pointer"
+            style={{ color: "var(--text-muted)" }}
+            title="Logout"
+            id="logout-btn"
+          >
+            <FiLogOut size={17} />
+          </motion.button>
+
           {/* Close button — only shown in mobile drawer */}
           {isMobileDrawer && (
             <motion.button
@@ -77,6 +98,29 @@ const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
         </div>
       </div>
 
+      {/* ── Logged-in user info ── */}
+      {me && (
+        <div
+          className="flex items-center gap-3 px-4 py-3 flex-shrink-0"
+          style={{ borderBottom: "1px solid var(--border)", background: "var(--surface-alt)" }}
+        >
+          <div
+            className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
+            style={{ background: me.avatarColor || "var(--primary)" }}
+          >
+            {me.avatar}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold truncate" style={{ color: "var(--text)" }}>
+              {me.name}
+            </p>
+            <p className="text-[11px] truncate" style={{ color: "var(--primary)" }}>
+              ● You (online)
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* ── Search Bar ── */}
       <div className="px-3 py-3 flex-shrink-0">
         <div
@@ -92,7 +136,7 @@ const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
           />
           <input
             type="text"
-            placeholder="Search chats…"
+            placeholder="Search contacts…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="flex-1 bg-transparent outline-none text-sm"
@@ -116,46 +160,77 @@ const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
         </div>
       </div>
 
-      {/* ── Chat List ── */}
+      {/* ── Contact List ── */}
       <div className="flex-1 overflow-y-auto">
         {/* Section label */}
         <p
           className="px-4 pb-2 text-[10px] font-semibold uppercase tracking-widest select-none"
           style={{ color: "var(--text-muted)" }}
         >
-          Recent
+          Contacts ({filteredUsers.length})
         </p>
 
-        <AnimatePresence>
-          {filteredChats.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex flex-col items-center justify-center py-12 gap-2"
-            >
-              <FiSearch
-                size={28}
-                style={{ color: "var(--text-muted)", opacity: 0.4 }}
-              />
-              <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-                No chats found
-              </p>
-            </motion.div>
-          ) : (
-            filteredChats.map((chat, i) => (
-              <ChatItem
-                key={chat.id}
-                chat={chat}
-                index={i}
-                isActive={chat.id === selectedChatId}
-                onClick={() => {
-                  onSelectChat(chat.id);
-                  if (isMobileDrawer) onClose?.();
-                }}
-              />
-            ))
-          )}
-        </AnimatePresence>
+        {usersLoading ? (
+          // Loading skeleton
+          <div className="flex flex-col gap-1 px-3">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="flex items-center gap-3 px-3 py-3 rounded-xl animate-pulse"
+                style={{ background: "var(--surface-alt)" }}
+              >
+                <div
+                  className="w-11 h-11 rounded-full flex-shrink-0"
+                  style={{ background: "var(--border)" }}
+                />
+                <div className="flex-1">
+                  <div
+                    className="h-3 rounded mb-2 w-24"
+                    style={{ background: "var(--border)" }}
+                  />
+                  <div
+                    className="h-2.5 rounded w-32"
+                    style={{ background: "var(--border)" }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <AnimatePresence>
+            {filteredUsers.length === 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-center justify-center py-12 gap-2"
+              >
+                <FiSearch
+                  size={28}
+                  style={{ color: "var(--text-muted)", opacity: 0.4 }}
+                />
+                <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+                  {users.length === 0 ? "No other users yet" : "No contacts found"}
+                </p>
+                {users.length === 0 && (
+                  <p className="text-xs text-center px-4" style={{ color: "var(--text-muted)", opacity: 0.6 }}>
+                    Sign up another account to start chatting!
+                  </p>
+                )}
+              </motion.div>
+            ) : (
+              filteredUsers.map((u, i) => (
+                <ChatItem
+                  key={u._id}
+                  user={u}
+                  index={i}
+                  isActive={selectedUser?._id === u._id}
+                  isOnline={onlineUsers.includes(u._id)}
+                  onClick={() => handleSelectUser(u)}
+                />
+              ))
+            )}
+          </AnimatePresence>
+        )}
       </div>
 
       {/* ── Footer branding ── */}
@@ -174,9 +249,8 @@ const Sidebar = ({ selectedChatId, onSelectChat, onClose, isMobileDrawer }) => {
   );
 };
 
-// ── ChatItem ─────────────────────────────────────────────────────────────────
-
-const ChatItem = ({ chat, index, isActive, onClick }) => (
+// ── ChatItem (Contact Row) ────────────────────────────────────────────────────
+const ChatItem = ({ user, index, isActive, isOnline, onClick }) => (
   <motion.button
     initial={{ opacity: 0, x: -16 }}
     animate={{ opacity: 1, x: 0 }}
@@ -199,17 +273,17 @@ const ChatItem = ({ chat, index, isActive, onClick }) => (
     onMouseLeave={(e) => {
       if (!isActive) e.currentTarget.style.background = "transparent";
     }}
-    id={`chat-item-${chat.id}`}
+    id={`chat-item-${user._id}`}
   >
     {/* Avatar with online indicator */}
     <div className="relative flex-shrink-0">
       <div
         className="w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm select-none"
-        style={{ background: chat.avatarColor || "var(--primary)" }}
+        style={{ background: user.avatarColor || "var(--primary)" }}
       >
-        {chat.avatar}
+        {user.avatar}
       </div>
-      {chat.online && (
+      {isOnline && (
         <span
           className="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2"
           style={{
@@ -227,43 +301,29 @@ const ChatItem = ({ chat, index, isActive, onClick }) => (
           className="font-semibold text-sm truncate leading-tight"
           style={{ color: "var(--text)" }}
         >
-          {chat.name}
+          {user.name}
         </span>
         <span
           className="text-[10px] flex-shrink-0 ml-1"
           style={{
-            color: chat.unread > 0 ? "var(--primary)" : "var(--text-muted)",
-            fontWeight: chat.unread > 0 ? "600" : "400",
+            color: isOnline ? "var(--primary)" : "var(--text-muted)",
+            fontWeight: isOnline ? "600" : "400",
           }}
         >
-          {chat.time}
+          {isOnline ? "online" : user.lastSeen
+            ? new Date(user.lastSeen).toLocaleTimeString("en-IN", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : ""}
         </span>
       </div>
-      <div className="flex items-center justify-between gap-1 mt-0.5">
-        <span
-          className="text-xs truncate leading-tight flex-1"
-          style={{
-            color: "var(--text-muted)",
-            fontWeight: chat.unread > 0 ? "500" : "400",
-          }}
-        >
-          {chat.lastMsg}
-        </span>
-        {chat.unread > 0 && (
-          <motion.span
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white ml-1"
-            style={{
-              background: "var(--primary)",
-              minWidth: chat.unread > 9 ? "auto" : "1.25rem",
-              padding: chat.unread > 9 ? "0 4px" : 0,
-            }}
-          >
-            {chat.unread > 99 ? "99+" : chat.unread}
-          </motion.span>
-        )}
-      </div>
+      <p
+        className="text-xs truncate leading-tight mt-0.5"
+        style={{ color: "var(--text-muted)" }}
+      >
+        {user.lastMsg || (isOnline ? "● online" : "Tap to start chatting")}
+      </p>
     </div>
   </motion.button>
 );

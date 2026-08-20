@@ -2,10 +2,12 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "motion/react";
-import { FiMessageCircle, FiHome, FiMail, FiLogIn } from "react-icons/fi";
+import { FiMessageCircle, FiHome, FiMail, FiLogIn, FiLogOut, FiUser } from "react-icons/fi";
+import { useAuth } from "../context/AuthContext";
 
 const SiteHeader = () => {
   const { theme, setTheme } = useTheme();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const isChat = location.pathname === "/chat";
@@ -39,18 +41,33 @@ const SiteHeader = () => {
             <span className="hidden md:inline">Contact</span>
           </motion.button>
 
-          {/* Login */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            onClick={() => navigate("/login")}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium text-white/80 hover:text-white cursor-pointer select-none whitespace-nowrap transition-colors duration-150"
-            id="login-nav-btn"
-          >
-            <FiLogIn size={14} />
-            <span className="hidden md:inline">Login</span>
-          </motion.button>
+          {/* Login / Logout */}
+          {user ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              onClick={logout}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium text-white/80 hover:text-white cursor-pointer select-none whitespace-nowrap transition-colors duration-150"
+              id="logout-nav-btn"
+              title={`Logged in as ${user.name}`}
+            >
+              <FiLogOut size={14} />
+              <span className="hidden md:inline">Logout</span>
+            </motion.button>
+          ) : (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => navigate("/login")}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium text-white/80 hover:text-white cursor-pointer select-none whitespace-nowrap transition-colors duration-150"
+              id="login-nav-btn"
+            >
+              <FiLogIn size={14} />
+              <span className="hidden md:inline">Login</span>
+            </motion.button>
+          )}
 
           {/* Open Chat / Go Home button */}
           <motion.button

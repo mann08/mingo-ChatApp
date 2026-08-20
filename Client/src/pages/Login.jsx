@@ -2,26 +2,62 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff, FiArrowRight, FiMessageCircle } from "react-icons/fi";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login, signup } = useAuth();
   const [mode, setMode] = useState("login"); // "login" | "signup"
   const [showPass, setShowPass] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setError(""); // Clear error on input change
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate a brief loading, then navigate to chat (placeholder auth)
-    setTimeout(() => {
+    setError("");
+
+    try {
+      let success = false;
+
+      if (mode === "signup") {
+        if (!form.name.trim()) {
+          setError("Please enter your full name.");
+          setLoading(false);
+          return;
+        }
+        if (form.password.length < 6) {
+          setError("Password must be at least 6 characters.");
+          setLoading(false);
+          return;
+        }
+        success = await signup(form.name.trim(), form.email, form.password);
+      } else {
+        success = await login(form.email, form.password);
+      }
+
+      if (success) {
+        navigate("/chat");
+      }
+    } catch (err) {
+      const msg =
+        err?.response?.data?.message ||
+        (mode === "login"
+          ? "Login failed. Check your credentials."
+          : "Signup failed. Please try again.");
+      setError(msg);
+      toast.error(msg);
+    } finally {
       setLoading(false);
-      navigate("/chat");
-    }, 1200);
+    }
   };
 
   const toggleMode = () => {
@@ -239,6 +275,22 @@ const Login = () => {
                 </p>
               )}
             </div>
+
+            {/* Error Message */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="px-4 py-3 rounded-xl text-sm font-medium"
+                style={{
+                  background: "rgba(239,68,68,0.10)",
+                  border: "1px solid rgba(239,68,68,0.25)",
+                  color: "#EF4444",
+                }}
+              >
+                ⚠️ {error}
+              </motion.div>
+            )}
 
             {/* Submit */}
             <motion.button
