@@ -1,7 +1,8 @@
 Mern Stack Project 
 
 
-👨‍💻 Author
+# 👨‍💻 Author
+
 Mann Verma
 
 Computer Science Engineering Student
