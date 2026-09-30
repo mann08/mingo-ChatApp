@@ -3,7 +3,7 @@ Mern Stack Project
 
 # 👨‍💻 Author
 
-Mann Verma
+# Mann Verma
 
 Computer Science Engineering Student
 
